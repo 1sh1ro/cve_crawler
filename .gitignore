@@ -43,7 +43,29 @@ venv.bak/
 *.csv
 *.md
 !README.md
+!README_EN.md
 !LICENSE.md
+!*_GUIDE.md
+!*_README.md
+!*_SETUP.md
+!*_COMPLETE.md
+!*_SUMMARY.md
+!*_STRUCTURE.md
+!*_SCRIPT.md
+!CHECKLIST.md
+!START_HERE.md
+!CHANGELOG.md
+!CONTRIBUTING.md
+!GITHUB_SETUP.md
+!GIT_PUBLISH.md
+!QUICK_START_GUIDE.md
+!00_READ_ME_FIRST.md
+!PROJECT_*.md
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
 
 # Logs
 *.log

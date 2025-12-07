@@ -15,6 +15,7 @@
 - 🔄 **自动分段**: 自动处理NVD API的120天限制
 - ⚡ **速率控制**: 智能处理API速率限制，避免被封禁
 - 🛡️ **稳定可靠**: 基于官方API，数据准确且合规
+- 🔗 **参考链接爬虫**: 自动爬取CVE参考链接内容并存储到数据库（新功能！）
 
 ## 📋 获取的信息
 
@@ -232,3 +233,91 @@ cves = scraper.search_cves(
 ---
 
 **免责声明**: 本工具仅用于安全研究和学习目的，请遵守相关法律法规和NVD使用条款。
+
+
+---
+
+## 🔗 参考链接爬虫（新功能）
+
+### 功能介绍
+
+参考链接爬虫可以从CVE JSON文件中提取所有参考链接，自动爬取这些链接的内容，并保存到SQLite数据库中，方便深度分析。
+
+### 快速开始
+
+#### 1. 安装额外依赖
+```bash
+pip install beautifulsoup4 requests tabulate lxml
+```
+
+或运行：
+```bash
+install_crawler_deps.bat
+```
+
+#### 2. 爬取参考链接
+```bash
+# 测试模式（只处理前5个CVE）
+python reference_crawler.py linux_kernel_privilege_escalation_2020-2025.json --max 5
+
+# 爬取全部
+python reference_crawler.py linux_kernel_privilege_escalation_2020-2025.json
+```
+
+#### 3. 查询数据库
+```bash
+# 查看统计信息
+python query_references.py stats
+
+# 查询特定CVE的所有参考链接
+python query_references.py cve CVE-2020-25221
+
+# 搜索特定域名
+python query_references.py domain intel.com
+
+# 查看爬取的内容
+python query_references.py content CVE-2020-25221 --url intel.com
+
+# 导出到CSV
+python query_references.py export --output analysis.csv
+```
+
+### 使用场景
+
+#### 场景1: 深度分析Intel安全公告
+```bash
+# 1. 爬取CVE数据
+python crawl_linux_kernel.py
+
+# 2. 爬取参考链接
+python reference_crawler.py linux_kernel_privilege_escalation_2020-2025.json
+
+# 3. 查询Intel相关链接
+python query_references.py domain intel.com
+
+# 4. 查看具体内容
+python query_references.py content CVE-2021-1052 --url intel.com
+```
+
+#### 场景2: 追踪内核补丁
+```bash
+# 查询所有kernel.org的链接
+python query_references.py domain kernel.org
+
+# 导出分析
+python query_references.py export --output kernel_patches.csv
+```
+
+### 数据库结构
+
+参考链接爬虫使用SQLite数据库存储数据，包含两个主表：
+
+- **cves表**: 存储CVE基本信息
+- **reference_links表**: 存储参考链接及其内容
+
+### 详细文档
+
+- [参考链接爬虫README](REFERENCE_CRAWLER_README.md) - 功能介绍和快速开始
+- [参考链接爬虫指南](REFERENCE_CRAWLER_GUIDE.md) - 详细使用说明和高级技巧
+
+---
