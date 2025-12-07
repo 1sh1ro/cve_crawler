@@ -82,8 +82,8 @@ def get_user_input():
         if not api_key:
             print("   ⚠ 未使用API密钥，速度会较慢")
             api_key = None
-    else:
-        print("   ✓ 已配置API密钥")
+        else:
+            print("   ✓ 已配置API密钥")
     
     # 输出格式
     print("\n4. 选择输出格式")
